@@ -4,6 +4,7 @@ class Category < Ohm::Model
   collection :elements, :Element
 
   index :name
+  index :elements
 
   def validate
     assert_present :name

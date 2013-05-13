@@ -6,6 +6,7 @@ class Element < Ohm::Model
   reference :category, :Category
 
   index :name
+  index :category
 
   def validate
     assert_present :name
