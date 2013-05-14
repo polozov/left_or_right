@@ -13,7 +13,7 @@ class ElementsController < ApplicationController
               )
       redirect_to category_element_path(category_id: category.id, id: element.id)
     else
-      flash[:notice] = 'Внимательно заполните все поля.'
+      flash.now[:notice] = 'Внимательно заполните все поля.'
       render :new
     end
   end
@@ -24,5 +24,26 @@ class ElementsController < ApplicationController
 
   def index
     @elements = Category.find(id: params[:category_id]).first.elements
-  end  
+  end
+
+  def vote
+    if category = Category[params[:category_id]] and element = Element[params[:id]]
+      vote_up(category, element)
+    else
+      flash[:notice] = 'Hacker detected!'
+      redirect_to root_path
+    end
+  end
+
+  private
+
+  def vote_up category, element
+    # начисление голосов
+    if element.incr('score')
+      flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
+    else
+      flash[:error] = "Произошла ошибка!"
+    end
+    redirect_to category_path(id: category.id)
+  end
 end

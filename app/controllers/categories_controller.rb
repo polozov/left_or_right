@@ -27,14 +27,4 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.all
   end
-
-  def vote #arguments
-    # проверка и вызов vote_up
-  end
-
-  private
-
-  def vote_up #arguments
-    # начисление голосов
-  end
 end

@@ -1,12 +1,14 @@
 <h3>Выбранная категория: <%= @category.name.capitalize %></h3>
 
 <p>
-  <%= @left.name.capitalize %>
-  <%= @left.path %>
+  <%= link_to @left.name.capitalize,
+      vote_category_element_path(category_id: @category.id, id: @left.id) %>
+  <%= @left.path %> Голосов: <%= @left.score %>
 </p>
 <p>
-  <%= @right.name.capitalize %>
-  <%= @right.path %>
+  <%= link_to @right.name.capitalize,
+      vote_category_element_path(category_id: @category.id, id: @right.id) %>
+  <%= @right.path %> Голосов: <%= @right.score %>
 </p>
 <br />
 <p><%= link_to 'К списку категорий', root_path %></p>
