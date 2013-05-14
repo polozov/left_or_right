@@ -19,7 +19,8 @@ class CategoriesController < ApplicationController
       @left, @right = Category.divination(@category.id)
     else
       flash[:notice] = 'Данная категория еще не заполнена.'
-      redirect_to root_path
+      redirect_to new_category_element_path(category_id: @category.id)
+      #redirect_to root_path
     end
   end
 
