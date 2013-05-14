@@ -3,6 +3,7 @@ class Category < Ohm::Model
   unique     :name
   collection :elements, :Element
 
+  index :id
   index :name
   index :elements
 

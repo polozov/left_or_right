@@ -1,0 +1,6 @@
+<h1>Все категории:</h1>
+
+<% @categories.each do |c| %>
+  <p><%= link_to c.name.capitalize, category_path(c.id) %></p>
+<% end %>
+<p><%= debug params %></p>

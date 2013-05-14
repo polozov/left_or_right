@@ -1,4 +1,10 @@
 LeftOrRight::Application.routes.draw do
+  resources :categories, only: [:new, :show, :index] do
+    resources :elements, only: [:new, :show, :index]
+  end
+
+  root :to => 'categories#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
