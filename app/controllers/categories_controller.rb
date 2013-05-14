@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 class CategoriesController < ApplicationController
   def new
     @category = Category.new
@@ -13,10 +15,25 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category[params[:id]]
+    if @category = Category[params[:id]] and @category.elements.size > 1
+      @left, @right = Category.divination(@category.id)
+    else
+      flash[:notice] = 'Данная категория еще не заполнена.'
+      redirect_to root_path
+    end
   end
 
   def index
     @categories = Category.all
+  end
+
+  def vote #arguments
+    # проверка и вызов vote_up
+  end
+
+  private
+
+  def vote_up #arguments
+    # начисление голосов
   end
 end

@@ -12,4 +12,7 @@ class Category < Ohm::Model
     assert_length  :name, 3..15
   end
 
+  def self.divination category_id
+    Category[category_id].elements.to_a.sample(2)
+  end
 end

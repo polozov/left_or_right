@@ -1,4 +1,8 @@
-<h1>Все категории:</h1>
+<% if flash.any? %>
+  <p><%= flash.notice %></p>
+<% end %>
+
+<h3>Все категории:</h3>
 
 <% @categories.each do |c| %>
   <p><%= link_to c.name.capitalize, category_path(c.id) %></p>
