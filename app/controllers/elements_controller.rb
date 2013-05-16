@@ -6,14 +6,15 @@ class ElementsController < ApplicationController
 
   def create
     category = Category[params[:category_id]]
-    if element = Element.create(
-                category: category,
-                name: params[:element][:name],
-                path: params[:element][:path]
-              )
+    element = Element.new(
+      category: category, name: params[:element][:name], path: params[:element][:path])
+
+    if element.valid? and upload(params[:element][:path], element, category.id)
+      element.save
       redirect_to category_element_path(category_id: category.id, id: element.id)
     else
-      flash.now[:notice] = 'Внимательно заполните все поля.'
+      flash.now[:notice] = 'Ошибка! Наименование - не менее 3-х символов;
+        допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
   end
@@ -33,17 +34,5 @@ class ElementsController < ApplicationController
       flash[:notice] = 'Hacker detected!'
       redirect_to root_path
     end
-  end
-
-  private
-
-  def vote_up category, element
-    # начисление голосов
-    if element.incr('score')
-      flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
-    else
-      flash[:error] = "Произошла ошибка!"
-    end
-    redirect_to category_path(id: category.id)
   end
 end
