@@ -27,6 +27,17 @@ class ElementsController < ApplicationController
     @elements = Category.find(id: params[:category_id]).first.elements
   end
 
+  def destroy
+    if element = Element[params[:id]] and
+      File.delete(Rails.root.join('app', 'assets', 'images', element.path))
+
+      element.delete
+    else
+      flash[:error] = "Произошла ошибка! Элемент не удален!"
+    end
+    redirect_to category_elements_path(category_id: params[:category_id])    
+  end
+
   def vote
     if category = Category[params[:category_id]] and element = Element[params[:id]]
       vote_up(category, element)
