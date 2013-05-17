@@ -8,11 +8,21 @@ class ApplicationController < ActionController::Base
   # создание необходимых папок если они не существуют
   # element - вх. аргумент для определения класса объекта
   def create_directory_if_necessary element
-    Dir.chdir(Rails.root.join('app', 'assets', 'images'))
-    Dir.mkdir('uploads') unless Dir.exist?('uploads')
-    Dir.chdir('uploads')
-    Dir.mkdir("#{element.class.to_s.underscore}") unless
-      Dir.exist?("#{element.class.to_s.underscore}")
+    unless Dir.exist?(
+            Rails.root.join(
+              'app', 'assets', 'images', 'uploads', "#{element.class.to_s.underscore}",
+              "#{element.category.id.to_s}"
+            )
+          )
+      Dir.chdir(Rails.root.join('app', 'assets', 'images'))
+      Dir.mkdir('uploads') unless Dir.exist?('uploads')
+      Dir.chdir('uploads')
+      Dir.mkdir("#{element.class.to_s.underscore}") unless
+        Dir.exist?("#{element.class.to_s.underscore}")
+      Dir.chdir("#{element.class.to_s.underscore}")
+      Dir.mkdir("#{element.category.id.to_s}") unless
+        Dir.exist?("#{element.category.id.to_s}")
+    end
   end
 
   # возвращает расширение файла если файл является изображением
@@ -28,11 +38,14 @@ class ApplicationController < ActionController::Base
     file_ext = check_file_type(file.original_filename)
 
     if file_ext #and file.content_type =~ /^image/i
-      unique_filename = ['uploads', "#{element.class.to_s.underscore}", "#{SecureRandom.hex(8)}.#{file_ext}"].join('/')
-      File.open(Rails.root.join('app', 'assets', 'images', unique_filename), 'wb') do |uploaded_file|
+      path_and_filename = ['uploads', "#{element.class.to_s.underscore}",
+        "#{element.category.id.to_s}", "#{SecureRandom.hex(8)}.#{file_ext}"].join('/')
+      File.open(
+        Rails.root.join(
+          'app', 'assets', 'images', path_and_filename), 'wb') do |uploaded_file|
         uploaded_file.write(file.read)
       end
-      element.path = unique_filename
+      element.path = path_and_filename
     end
   end
 
