@@ -12,4 +12,11 @@ class Element < Ohm::Model
     assert_length  :name, 3..15
     assert_present :path
   end
+
+  def delete
+    if File.exist?(Rails.root.join('app', 'assets', 'images', self.path))
+      File.delete(Rails.root.join('app', 'assets', 'images', self.path))
+    end
+    super
+  end
 end

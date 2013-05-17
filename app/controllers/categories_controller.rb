@@ -10,6 +10,7 @@ class CategoriesController < ApplicationController
     if category.save
       redirect_to category_path(category.id)
     else
+      flash.now[:notice] = 'Ошибка! Наименование - не менее 3-х символов.'
       render :new
     end
   end
@@ -25,5 +26,15 @@ class CategoriesController < ApplicationController
 
   def index
     @categories = Category.all
+  end
+
+  def destroy
+    if category = Category[params[:id]]
+      category.elements.each{ |e| e.delete } if category.elements.any?
+      category.delete
+    else
+      flash[:error] = 'Данная категория не существует!'
+    end
+    redirect_to root_path
   end
 end

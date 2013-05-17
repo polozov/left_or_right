@@ -6,6 +6,8 @@
 Element.all.each{ |e| e.delete }
 Category.all.each{ |c| c.delete }
 
+FileUtils.cp(Rails.root.join('db', 'rails.png'), Rails.root.join('app', 'assets', 'images', 'rails.png'))
+
 cars  = Category.create name: 'Автомобили'
 girls = Category.create name: 'Девушки'
 boys  = Category.create name: 'Парни'

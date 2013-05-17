@@ -28,9 +28,7 @@ class ElementsController < ApplicationController
   end
 
   def destroy
-    if element = Element[params[:id]] and
-      File.delete(Rails.root.join('app', 'assets', 'images', element.path))
-
+    if element = Element[params[:id]]
       element.delete
     else
       flash[:error] = "Произошла ошибка! Элемент не удален!"
