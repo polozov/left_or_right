@@ -1,7 +1,23 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+# encoding: utf-8
 #
-# Examples:
+# Attention! This task will remove all items from Redis DB!
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#
+Element.all.each{ |e| e.delete }
+Category.all.each{ |c| c.delete }
+
+cars  = Category.create name: 'Автомобили'
+girls = Category.create name: 'Девушки'
+boys  = Category.create name: 'Парни'
+
+%w(Пежо Понтиак Порше Субару Джили).each do |c_name|
+  Element.create name: c_name, path: 'rails.png', category: cars
+end
+
+%w(Роксана Алекса Тамара Евдокия Авдотья).each do |g_name|
+  Element.create name: g_name, path: 'rails.png', category: girls
+end
+
+%w(Илья Егор Тимур Антон Семён).each do |b_name|
+  Element.create name: b_name, path: 'rails.png', category: boys
+end
