@@ -3,23 +3,18 @@
 # Attention! This task will remove all items from Redis DB!
 #
 #
+# Удаляем все элементы и категории
 Element.all.each{ |e| e.delete }
 Category.all.each{ |c| c.delete }
 
-FileUtils.cp(Rails.root.join('db', 'rails.png'), Rails.root.join('app', 'assets', 'images', 'rails.png'))
+# Создаем 3 категории, получаем id первой категории
+cat_id = Category.create(name: 'Категория1').id.to_i
+         Category.create(name: 'Категория2')
+         Category.create(name: 'Категория3')
 
-cars  = Category.create name: 'Автомобили'
-girls = Category.create name: 'Девушки'
-boys  = Category.create name: 'Парни'
-
-%w(Пежо Понтиак Порше Субару Джили).each do |c_name|
-  Element.create name: c_name, path: 'rails.png', category: cars
-end
-
-%w(Роксана Алекса Тамара Евдокия Авдотья).each do |g_name|
-  Element.create name: g_name, path: 'rails.png', category: girls
-end
-
-%w(Илья Егор Тимур Антон Семён).each do |b_name|
-  Element.create name: b_name, path: 'rails.png', category: boys
-end
+# Создаем 21 элемент в 3-х категориях
+21.times do |i|
+  element = Element.new name: "Элемент_#{i}", category: Category[cat_id + rand(3)]
+  element.upload(Rails.root.join('db', 'rails.png'), 'png')
+  element.save
+end  

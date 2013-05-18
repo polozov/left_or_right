@@ -8,8 +8,9 @@ class ElementsController < ApplicationController
     category = Category[params[:category_id]]
     element = Element.new(
       category: category, name: params[:element][:name], path: params[:element][:path])
+    file_ext = check_file_type(element.path.original_filename)
 
-    if element.valid? and upload(params[:element][:path], element, category.id)
+    if element.valid? and element.upload(element.path, file_ext)
       element.save
       redirect_to category_element_path(category_id: category.id, id: element.id)
     else
