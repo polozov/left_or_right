@@ -39,6 +39,12 @@ class ElementsController < ApplicationController
 
   def show
     @element = Element[params[:id]]
+    category = Category[params[:category_id]]
+
+    if category == nil or @element.category.id != category.id
+      flash[:notice] = 'Hacker detected!'
+      redirect_to root_path
+    end 
   end
 
   def index
