@@ -3,6 +3,8 @@
   <p>
   <%= link_to e.name,
     category_element_path(category_id: e.category.id, id: e.id) %> - 
+  <%= link_to 'Изменить',
+    edit_category_element_path(category_id: e.category.id, id: e.id) %> - 
   <%= link_to 'Удалить',
     category_element_path(category_id: e.category.id, id: e.id),
     method: :delete, confirm: 'Вы уверены?'  %>

@@ -20,6 +20,21 @@ class ElementsController < ApplicationController
     end
   end
 
+  def edit
+    @element = Element[params[:id]]
+  end
+
+  def update
+    @element = Element[params[:id]]    
+    if (3..15) === params[:element][:name].to_s.size
+      @element.update(name: params[:element][:name])
+      redirect_to category_element_path(category_id: @element.category.id, id: @element.id)
+    else
+      flash.now[:notice] = "Наименование должно состоять из 3 - 15 символов!"
+      render :edit
+    end
+  end
+
   def show
     @element = Element[params[:id]]
   end
