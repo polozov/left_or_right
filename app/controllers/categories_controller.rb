@@ -6,11 +6,11 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    category = Category.new(params[:category])
-    if category.save
-      redirect_to category_path(category.id)
+    @category = Category.new(params[:category])
+    if @category.save
+      redirect_to category_path(@category.id)
     else
-      flash.now[:notice] = 'Ошибка! Наименование - не менее 3-х символов.'
+      flash.now[:notice] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
       render :new
     end
   end
