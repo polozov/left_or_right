@@ -1,6 +1,6 @@
 class Element < Ohm::Model
   attribute :name
-  attribute :path
+  attribute :image
   counter   :score
   reference :category, :Category
 
@@ -9,13 +9,13 @@ class Element < Ohm::Model
   def validate
     assert_present :name
     assert_length  :name, 3..15
-    assert_present :path
+    assert_present :image
   end
 
   # удаление связанного с элементом изображения и удаление самого элемента
   def delete
-    File.delete(Rails.root.join('app', 'assets', 'images', self.path)) if
-      File.exist?(Rails.root.join('app', 'assets', 'images', self.path))
+    File.delete(Rails.root.join('app', 'assets', 'images', self.image)) if
+      File.exist?(Rails.root.join('app', 'assets', 'images', self.image))
     super
   end
 
@@ -51,7 +51,7 @@ class Element < Ohm::Model
           'app', 'assets', 'images', path_and_filename), 'wb') do |uploaded_file|
         uploaded_file.write(file.read)
       end
-      self.path = path_and_filename
+      self.image = path_and_filename
     end
   end
 end
