@@ -16,7 +16,7 @@ class CategoriesController < ApplicationController
       @category.save
       redirect_to category_path(@category.id)
     else
-      flash.now[:error] = 'Ошибка! Наименование 3..15 символов;
+      flash.now[:alert] = 'Ошибка! Наименование 3..15 символов;
         допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
@@ -29,7 +29,7 @@ class CategoriesController < ApplicationController
     if @category.update(name: params[:category][:name])
       redirect_to category_path(@category.id)
     else
-      flash.now[:error] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:alert] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
       render :edit
     end
   end
@@ -52,7 +52,7 @@ class CategoriesController < ApplicationController
       @category.elements.each{ |e| e.delete } if @category.elements.any?
       @category.delete
     else
-      flash[:error] = 'Данная категория не существует!'
+      flash[:alert] = 'Данная категория не существует!'
     end
     redirect_to root_path
   end
@@ -60,7 +60,7 @@ class CategoriesController < ApplicationController
   private
 
   def name_is_not_unique
-    flash[:error] = 'Наименование категории должно быть уникальным!'
+    flash[:alert] = 'Наименование категории должно быть уникальным!'
     redirect_to root_path
   end
 

@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     if element.incr('score')
       flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
     else
-      flash[:error] = "Произошла ошибка!"
+      flash[:alert] = "Произошла ошибка!"
     end
     redirect_to category_path(id: element.category.id)
   end 
