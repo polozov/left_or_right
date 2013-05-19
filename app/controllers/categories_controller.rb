@@ -15,6 +15,20 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def edit
+    @category = Category[params[:id]]
+  end
+
+  def update
+    @category = Category[params[:id]]
+    if @category.update(name: params[:category][:name])
+      redirect_to category_path(@category.id)
+    else
+      flash.now[:notice] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      render :edit
+    end
+  end
+
   def show
     if @category = Category[params[:id]] and @category.elements.size > 1
       @left, @right = Category.divination(@category.id)
