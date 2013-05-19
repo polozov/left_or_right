@@ -14,7 +14,7 @@ cat_id = Category.create(name: 'Категория1').id.to_i
 
 # Создаем 21 элемент в 3-х категориях
 21.times do |i|
-  element = Element.new name: "Элемент_#{i}", category: Category[cat_id + rand(3)]
+  element = Element.new name: "Элемент_#{i+1}", category: Category[cat_id + rand(3)]
   element.upload(Rails.root.join('db', 'rails.png'), 'png')
   element.save
 end  

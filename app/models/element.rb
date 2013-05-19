@@ -4,7 +4,6 @@ class Element < Ohm::Model
   counter   :score
   reference :category, :Category
 
-  index :name
   index :category
 
   def validate
@@ -15,9 +14,8 @@ class Element < Ohm::Model
 
   # удаление связанного с элементом изображения и удаление самого элемента
   def delete
-    if File.exist?(Rails.root.join('app', 'assets', 'images', self.path))
-      File.delete(Rails.root.join('app', 'assets', 'images', self.path))
-    end
+    File.delete(Rails.root.join('app', 'assets', 'images', self.path)) if
+      File.exist?(Rails.root.join('app', 'assets', 'images', self.path))
     super
   end
 

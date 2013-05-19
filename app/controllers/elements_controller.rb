@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 class ElementsController < ApplicationController
-  before_filter :element_finder, only: [:edit, :update, :show, :destroy]
+  before_filter :element_finder, only: [:edit, :update, :show, :destroy, :vote]
 
   def new
     @element = Element.new
