@@ -20,7 +20,6 @@ class Element < Ohm::Model
   end
 
   # создание необходимых папок если они не существуют
-  # element - вх. аргумент для определения класса объекта
   def create_directory_if_necessary
     unless Dir.exist?(
             Rails.root.join(

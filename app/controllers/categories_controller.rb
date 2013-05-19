@@ -10,10 +10,14 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(params[:category])
-    if @category.save
+    file_ext = check_file_type(@category.image.original_filename) if @category.image
+
+    if @category.valid? and @category.upload(@category.image, file_ext)
+      @category.save
       redirect_to category_path(@category.id)
     else
-      flash.now[:error] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:error] = 'Ошибка! Наименование 3..15 символов;
+        допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
   end

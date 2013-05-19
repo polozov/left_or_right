@@ -1,4 +1,7 @@
-<h3>Выбранная категория: <%= @category.name.capitalize %></h3>
+<h3>
+  Выбранная категория: <%= @category.name.capitalize %><br />
+  <%= image_tag @category.image %>
+</h3>
 
 <p>
   <%= render 'element_for_divination', e: @left %>

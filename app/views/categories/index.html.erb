@@ -2,6 +2,7 @@
 
 <% @categories.each do |c| %>
   <p>
+    <%= image_tag c.image %>
     <%= link_to c.name.capitalize, category_path(c.id) %> - 
     <%= link_to 'Редактировать', edit_category_path(c.id) %> - 
     <%= link_to 'Удалить',
