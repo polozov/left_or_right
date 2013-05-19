@@ -11,12 +11,12 @@ Category.all.each{ |c| c.delete }
 # Для каждой категории создаем 5 элементов ('Элемент_1_1'..'Элемент_3_5')
 1.upto(3) do |c|
   category = Category.new name: "Категория_#{c}"
-  category.upload(Rails.root.join('db', 'rails.png'), 'png')
+  category.upload(Rails.root.join('db', 'group.png'), 'png')
   category.save
 
   1.upto(5) do |e|
     element = Element.new name: "Элемент_#{c}_#{e}", category: category
-    element.upload(Rails.root.join('db', 'rails.png'), 'png')
+    element.upload(Rails.root.join('db', 'element.png'), 'png')
     element.save
   end
 end
