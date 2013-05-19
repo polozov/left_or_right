@@ -1,6 +1,8 @@
 #encoding: utf-8
 
 class ElementsController < ApplicationController
+  before_filter :element_finder, only: [:edit, :update, :show, :destroy]
+
   def new
     @element = Element.new
   end
@@ -15,56 +17,61 @@ class ElementsController < ApplicationController
       @element.save
       redirect_to category_element_path(category_id: category.id, id: @element.id)
     else
-      flash.now[:notice] = 'Ошибка! Наименование - не менее 3-х символов;
+      flash.now[:error] = 'Ошибка! Наименование - не менее 3-х символов;
         допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
   end
 
   def edit
-    @element = Element[params[:id]]
   end
 
   def update
-    @element = Element[params[:id]]    
     if @element.update(name: params[:element][:name])
       redirect_to category_element_path(
         category_id: @element.category.id, id: @element.id)
     else
-      flash.now[:notice] = "Ошибка! Наименование - должно содержать 3..15 символов."
+      flash.now[:error] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
       render :edit
     end
   end
 
   def show
-    @element = Element[params[:id]]
     category = Category[params[:category_id]]
 
-    if category == nil or @element.category.id != category.id
-      flash[:notice] = 'Hacker detected!'
+    if @element.nil? or category.nil? or @element.category.id != category.id
+      flash[:error] = 'Произошла досадная ошибка!'
       redirect_to root_path
     end 
   end
 
   def index
-    @elements = Category.find(id: params[:category_id]).first.elements
+    @elements = Category[params[:category_id]].elements
   end
 
   def destroy
-    if element = Element[params[:id]]
-      element.delete
+    if @element and @element.category.id == params[:category_id]
+      @element.delete
+      flash[:error] = 'Элемент был удален!'
     else
-      flash[:error] = "Произошла ошибка! Элемент не удален!"
+      flash[:error] = 'Произошла ошибка! Элемент не удален!'
     end
     redirect_to category_elements_path(category_id: params[:category_id])    
   end
 
+  # простая проверка при голосовании
   def vote
-    if category = Category[params[:category_id]] and element = Element[params[:id]]
-      vote_up(category, element)
+    if @element and @element.category.id == params[:category_id]
+      vote_up(@element)
     else
       flash[:notice] = 'Hacker detected!'
       redirect_to root_path
     end
+  end
+
+  private
+
+  def element_finder
+    @element = Element[params[:id]]    
   end
 end

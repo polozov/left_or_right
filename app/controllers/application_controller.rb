@@ -13,12 +13,12 @@ class ApplicationController < ActionController::Base
   end
 
   # начисление голосов
-  def vote_up category, element
+  def vote_up element
     if element.incr('score')
       flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
     else
       flash[:error] = "Произошла ошибка!"
     end
-    redirect_to category_path(id: category.id)
+    redirect_to category_path(id: element.category.id)
   end 
 end

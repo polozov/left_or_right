@@ -1,6 +1,8 @@
 #encoding: utf-8
 
 class CategoriesController < ApplicationController
+  before_filter :category_finder, only: [:edit, :update, :show, :destroy]
+
   def new
     @category = Category.new
   end
@@ -10,27 +12,25 @@ class CategoriesController < ApplicationController
     if @category.save
       redirect_to category_path(@category.id)
     else
-      flash.now[:notice] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:error] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
       render :new
     end
   end
 
   def edit
-    @category = Category[params[:id]]
   end
 
   def update
-    @category = Category[params[:id]]
     if @category.update(name: params[:category][:name])
       redirect_to category_path(@category.id)
     else
-      flash.now[:notice] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:error] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
       render :edit
     end
   end
 
   def show
-    if @category = Category[params[:id]] and @category.elements.size > 1
+    if @category and @category.elements.size > 1
       @left, @right = Category.divination(@category.id)
     else
       flash[:notice] = 'Данная категория еще не заполнена.'
@@ -43,12 +43,18 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    if category = Category[params[:id]]
-      category.elements.each{ |e| e.delete } if category.elements.any?
-      category.delete
+    if @category
+      @category.elements.each{ |e| e.delete } if @category.elements.any?
+      @category.delete
     else
       flash[:error] = 'Данная категория не существует!'
     end
     redirect_to root_path
+  end
+
+  private
+
+  def category_finder
+    @category = Category[params[:id]]
   end
 end
