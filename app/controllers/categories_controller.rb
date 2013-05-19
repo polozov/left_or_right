@@ -1,6 +1,7 @@
 #encoding: utf-8
 
 class CategoriesController < ApplicationController
+  rescue_from Ohm::UniqueIndexViolation, with: :name_is_not_unique
   before_filter :category_finder, only: [:edit, :update, :show, :destroy]
 
   def new
@@ -53,6 +54,11 @@ class CategoriesController < ApplicationController
   end
 
   private
+
+  def name_is_not_unique
+    flash[:error] = 'Наименование категории должно быть уникальным!'
+    redirect_to root_path
+  end
 
   def category_finder
     @category = Category[params[:id]]
