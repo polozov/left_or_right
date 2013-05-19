@@ -3,12 +3,10 @@
 <% @categories.each do |c| %>
   <p>
     <%= link_to c.name.capitalize, category_path(c.id) %> - 
-    <%= link_to 'Изменить', edit_category_path(c.id) %> - 
+    <%= link_to 'Редактировать', edit_category_path(c.id) %> - 
     <%= link_to 'Удалить',
       category_path(c.id), method: :delete, confirm: 'Вы уверены?' %>
   </p>
 <% end %><br />
 
 <p><%= link_to 'Создать категорию', new_category_path %></p>
-
-<p><%= debug params %></p>

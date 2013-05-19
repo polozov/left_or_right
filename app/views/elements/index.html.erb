@@ -1,14 +1,13 @@
-<h1>Все элементы категории:</h1>
+<h3>Все элементы категории:</h3>
+
 <% @elements.each do |e| %>
   <p>
-  <%= link_to e.name,
-    category_element_path(category_id: e.category.id, id: e.id) %> - 
-  <%= link_to 'Изменить',
-    edit_category_element_path(category_id: e.category.id, id: e.id) %> - 
-  <%= link_to 'Удалить',
-    category_element_path(category_id: e.category.id, id: e.id),
-    method: :delete, confirm: 'Вы уверены?'  %>
+    <%= link_to e.name,
+      category_element_path(category_id: e.category.id, id: e.id) %> - 
+    <%= link_to 'Редактировать',
+      edit_category_element_path(category_id: e.category.id, id: e.id) %> - 
+    <%= link_to 'Удалить',
+      category_element_path(category_id: e.category.id, id: e.id),
+      method: :delete, confirm: 'Вы уверены?'  %>
   </p>
-<% end %><br />
-
-<p><%= debug params %></p>
+<% end %>
