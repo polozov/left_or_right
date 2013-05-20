@@ -13,6 +13,15 @@
     <p><%= alert %></p>
   <% end %>
 
+  <% if user_signed_in? %>
+    Вы зарегистрированы как - <%= current_user.email %> | 
+    <%= link_to 'Профиль', edit_user_registration_path %> | 
+    <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
+  <% else %>
+    <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 
+    <%= link_to 'Войти', new_user_session_path %> 
+  <% end %>
+
   <%= yield %>
 
 </body>
