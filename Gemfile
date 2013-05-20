@@ -7,6 +7,7 @@ gem 'ohm-contrib'
 gem 'jquery-rails'
 gem 'devise'
 gem 'cancan'
+gem 'russian'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
