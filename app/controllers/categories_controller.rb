@@ -3,6 +3,7 @@
 class CategoriesController < ApplicationController
   rescue_from Ohm::UniqueIndexViolation, with: :name_is_not_unique
   before_filter :category_finder, only: [:edit, :update, :show, :destroy]
+  before_filter :authenticate_user!, except: [:show, :index]
 
   def new
     @category = Category.new

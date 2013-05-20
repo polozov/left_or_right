@@ -3,11 +3,17 @@
 <% @categories.each do |c| %>
   <p>
     <%= image_tag c.image %>
-    <%= link_to c.name.capitalize, category_path(c.id) %> - 
-    <%= link_to 'Редактировать', edit_category_path(c.id) %> - 
-    <%= link_to 'Удалить',
-      category_path(c.id), method: :delete, confirm: 'Вы уверены?' %>
+    <%= link_to c.name.capitalize, category_path(c.id) %>
+    <% if user_signed_in? %>
+       - <%= link_to 'Редактировать', edit_category_path(c.id) %>
+       - <%= link_to 'Удалить',
+        category_path(c.id), method: :delete, confirm: 'Вы уверены?' %>
+    <% end %>
   </p>
 <% end %><br />
 
-<p><%= link_to 'Создать категорию', new_category_path %></p>
+<% if user_signed_in? %>
+  <p>
+    <%= link_to 'Создать категорию', new_category_path %>
+  </p>
+<% end %>

@@ -2,6 +2,7 @@
 
 class ElementsController < ApplicationController
   before_filter :element_finder, only: [:edit, :update, :show, :destroy, :vote]
+  before_filter :authenticate_user!
 
   def new
     @element = Element.new
