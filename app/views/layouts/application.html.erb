@@ -14,7 +14,7 @@
   <% end %>
 
   <% if user_signed_in? %>
-    Вы зарегистрированы как - <%= current_user.email %> | 
+    Вы зарегистрированы как - <%= current_user.username %> | 
     <%= link_to 'Профиль', edit_user_registration_path %> | 
     <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
   <% else %>

@@ -10,6 +10,9 @@
     <div>В настоящее время ожидается подтверждение: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+  <div><%= f.label :username, 'Никнэйм' %><br />
+  <%= f.text_field :username %></div>  
+
   <div><%= f.label :password, 'Пароль' %> <i>(оставьте пустым, если не хотите изменять его)</i><br />
   <%= f.password_field :password, :autocomplete => "off" %></div>
 

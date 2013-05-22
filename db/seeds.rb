@@ -39,7 +39,7 @@ Role.create! name: 'user'
 # Создаем первого пользователя - админа
 # Пароль лучше бы сразу изменить :)
 #
-User.create! email: 'admin@test.com', password: '123456789',
+User.create! username: 'Admin' ,email: 'admin@test.com', password: '123456789',
   password_confirmation: '123456789'
 
 puts 'Создаем пользователей и роли...'
