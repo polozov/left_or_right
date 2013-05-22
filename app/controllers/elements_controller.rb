@@ -69,15 +69,19 @@ class ElementsController < ApplicationController
     redirect_to category_elements_path(category_id: params[:category_id])
   end
 
-  # простая проверка при голосовании
+  # метод голосования с предварительной проверкой
   def vote
     cancan_authorize! :vote, @element
 
-    if @element and @element.category.id == params[:category_id]
-      vote_up(@element)
+    if @element and @element.category.id == params[:category_id] and
+        @element.vote_up(current_user.id)
+
+      flash[:notice] = "#{@element.name.capitalize} получил(а) Ваш голос!"
     else
-      redirect_to root_path, alert: 'Hacker detected!'
+      flash[:alert] = 'Произошла ошибка! Возможно, Вы пытаетесь проголосовать повторно.'
     end
+
+    redirect_to category_path(id: @element.category.id)
   end
 
   private

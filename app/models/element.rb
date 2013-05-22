@@ -2,6 +2,7 @@ class Element < Ohm::Model
   attribute :name
   attribute :image
   counter   :score
+  set :voted, Element
   reference :category, :Category
 
   index :category
@@ -51,6 +52,20 @@ class Element < Ohm::Model
         uploaded_file.write(file.read)
       end
       self.image = path_and_filename
+    end
+  end
+
+  # начисление голосов - если пользователь не голосовал за этот
+  # элемент, то 'score' увеличивается на 1
+  def vote_up id
+    user = User.find(id)
+
+    if self.voted.include?(user)
+      false
+    else
+      self.voted.add(user)
+      self.incr('score')
+      true
     end
   end
 end

@@ -20,16 +20,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # начисление голосов
-  def vote_up element
-    if element.incr('score')
-      flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
-    else
-      flash[:alert] = 'Произошла ошибка!'
-    end
-    redirect_to category_path(id: element.category.id)
-  end
-
   # CanCan проверяет права на выполнение экшена для определенной
   # модели и в случае отсутствия таких прав отправляет в root_path;
   # action - имя выполняемого действия, model - проверяемая модель,
