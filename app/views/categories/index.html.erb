@@ -4,7 +4,7 @@
   <p>
     <%= image_tag c.image %>
     <%= link_to c.name.capitalize, category_path(c.id) %>
-    <% if user_signed_in? %>
+    <% if can? :update, c and can? :destroy, c %>
        - <%= link_to 'Редактировать', edit_category_path(c.id) %>
        - <%= link_to 'Удалить',
         category_path(c.id), method: :delete, confirm: 'Вы уверены?' %>
@@ -12,7 +12,7 @@
   </p>
 <% end %><br />
 
-<% if user_signed_in? %>
+<% if can? :create, Category %>
   <p>
     <%= link_to 'Создать категорию', new_category_path %>
   </p>

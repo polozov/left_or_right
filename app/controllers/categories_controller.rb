@@ -1,15 +1,18 @@
 #encoding: utf-8
 
 class CategoriesController < ApplicationController
-  rescue_from Ohm::UniqueIndexViolation, with: :name_is_not_unique
-  before_filter :category_finder, only: [:edit, :update, :show, :destroy]
   before_filter :authenticate_user!, except: [:show, :index]
+  before_filter :category_finder, only: [:edit, :update, :show, :destroy]
+  rescue_from Ohm::UniqueIndexViolation, with: :name_is_not_unique
 
   def new
+    cancan_authorize! :new, Category
     @category = Category.new
   end
 
   def create
+    cancan_authorize! :create, Category
+
     @category = Category.new(params[:category])
     file_ext = check_file_type(@category.image.original_filename) if @category.image
 
@@ -24,9 +27,12 @@ class CategoriesController < ApplicationController
   end
 
   def edit
+    cancan_authorize! :edit, @category
   end
 
   def update
+    cancan_authorize! :update, @category
+
     if @category.update(name: params[:category][:name])
       redirect_to category_path(@category.id)
     else
@@ -36,6 +42,8 @@ class CategoriesController < ApplicationController
   end
 
   def show
+    cancan_authorize! :show, @category
+
     if @category and @category.elements.size > 1
       @left, @right = Category.divination(@category.id)
     else
@@ -45,10 +53,13 @@ class CategoriesController < ApplicationController
   end
 
   def index
+    cancan_authorize! :index, Category
     @categories = Category.all
   end
 
   def destroy
+    cancan_authorize! :destroy, @category
+
     if @category
       @category.elements.each{ |e| e.delete } if @category.elements.any?
       @category.delete

@@ -3,11 +3,13 @@
 <% @elements.each do |e| %>
   <p>
     <%= link_to e.name,
-      category_element_path(category_id: e.category.id, id: e.id) %> - 
-    <%= link_to 'Редактировать',
-      edit_category_element_path(category_id: e.category.id, id: e.id) %> - 
-    <%= link_to 'Удалить',
+      category_element_path(category_id: e.category.id, id: e.id) %>
+    <% if can? :edit, e and can? :destroy, e %>
+     - <%= link_to 'Редактировать',
+      edit_category_element_path(category_id: e.category.id, id: e.id) %>
+     - <%= link_to 'Удалить',
       category_element_path(category_id: e.category.id, id: e.id),
       method: :delete, confirm: 'Вы уверены?'  %>
+    <% end %>
   </p>
 <% end %>

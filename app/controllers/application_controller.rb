@@ -2,6 +2,9 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_path, alert: exception.message
+  end
 
   private
 
@@ -20,5 +23,14 @@ class ApplicationController < ActionController::Base
       flash[:alert] = "Произошла ошибка!"
     end
     redirect_to category_path(id: element.category.id)
-  end 
+  end
+
+  # CanCan проверяет права на выполнение экшена для определенной
+  # модели и в случае отсутствия таких прав отправляет в root_path;
+  # action - имя выполняемого действия, model - проверяемая модель,
+  # можно передавать экземпляр модели или саму модель (Category, Element ...)
+  def cancan_authorize! action, model
+    authorize! action, model,
+      message: 'У Вас недостаточно полномочий для этого действия.'
+  end
 end

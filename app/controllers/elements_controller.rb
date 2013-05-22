@@ -1,14 +1,17 @@
 #encoding: utf-8
 
 class ElementsController < ApplicationController
+  before_filter :authenticate_user!  
   before_filter :element_finder, only: [:edit, :update, :show, :destroy, :vote]
-  before_filter :authenticate_user!
 
   def new
+    cancan_authorize! :new, Element
     @element = Element.new
   end
 
   def create
+    cancan_authorize! :create, Element
+
     category = Category[params[:category_id]]
     @element = Element.new(
       category: category, name: params[:element][:name], image: params[:element][:image])
@@ -25,9 +28,12 @@ class ElementsController < ApplicationController
   end
 
   def edit
+    cancan_authorize! :edit, @element
   end
 
   def update
+    cancan_authorize! :update, @element
+
     if @element.update(name: params[:element][:name])
       redirect_to category_element_path(
         category_id: @element.category.id, id: @element.id)
@@ -38,6 +44,7 @@ class ElementsController < ApplicationController
   end
 
   def show
+    cancan_authorize! :show, @element
     category = Category[params[:category_id]]
 
     if @element.nil? or category.nil? or @element.category.id != category.id
@@ -47,25 +54,30 @@ class ElementsController < ApplicationController
   end
 
   def index
+    cancan_authorize! :index, Element
     @elements = Category[params[:category_id]].elements
   end
 
   def destroy
+    cancan_authorize! :destroy, @element
+
     if @element and @element.category.id == params[:category_id]
       @element.delete
       flash[:alert] = 'Элемент был удален!'
     else
       flash[:alert] = 'Произошла ошибка! Элемент не удален!'
     end
-    redirect_to category_elements_path(category_id: params[:category_id])    
+    redirect_to category_elements_path(category_id: params[:category_id])
   end
 
   # простая проверка при голосовании
   def vote
+    cancan_authorize! :vote, @element
+
     if @element and @element.category.id == params[:category_id]
       vote_up(@element)
     else
-      flash[:notice] = 'Hacker detected!'
+      flash[:alert] = 'Hacker detected!'
       redirect_to root_path
     end
   end
@@ -73,6 +85,6 @@ class ElementsController < ApplicationController
   private
 
   def element_finder
-    @element = Element[params[:id]]    
+    @element = Element[params[:id]]
   end
 end

@@ -20,3 +20,23 @@ Category.all.each{ |c| c.delete }
     element.save
   end
 end
+
+#
+# Удаляем пользователей и роли
+#
+User.delete_all
+Role.delete_all
+UsersRole.delete_all
+
+# 
+# Создаем необходимые роли для пользователей
+#
+Role.create! name: 'admin'
+Role.create! name: 'user'
+
+#
+# Создаем первого пользователя - админа
+# Пароль лучше бы сразу изменить :)
+#
+User.create! email: 'admin@test.com', password: '123456789',
+  password_confirmation: '123456789'
