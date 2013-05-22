@@ -22,7 +22,7 @@ class Category < Ohm::Model
     Category[category_id].elements.to_a.sample(2)
   end
 
-  # создание необходимых папок если они не существуют
+  # создание необходимых папок для картинок категории если они не существуют
   def create_directory_if_necessary
     unless Dir.exist?(
             Rails.root.join(
@@ -37,6 +37,9 @@ class Category < Ohm::Model
     end
   end
 
+  # метод загружающий картинку для категории
+  # file - файл картинки, file_ext - расширение файла картинки
+  # файл картинки получает случайное имя на основе ф-ии SecureRandom
   def upload file, file_ext
     self.create_directory_if_necessary
     if file_ext
@@ -48,6 +51,22 @@ class Category < Ohm::Model
         uploaded_file.write(file.read)
       end
       self.image = path_and_filename
+    end
+  end
+
+  # метод проверки уникальности имени категории
+  # это дублирование "unique :name" вызванно тем, что уникальность имени Ohm проверяет
+  # после сохранения категории и в случае не уникальности делает откат;
+  # такое поведение не устраивает - т.к. category#index успевает загрузить картинку 
+  def name_unique?
+    unless self.name.to_s.blank?
+      categories = Category.all
+
+      categories.each do |category|
+        return false if category.name.downcase == self.name.to_s.downcase
+      end
+
+      true
     end
   end
 end

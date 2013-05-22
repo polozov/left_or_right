@@ -38,7 +38,7 @@ class ElementsController < ApplicationController
       redirect_to category_element_path(
         category_id: @element.category.id, id: @element.id)
     else
-      flash.now[:alert] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:alert] = 'Ошибка! Наименование должно содержать 3..15 символов.'
       render :edit
     end
   end

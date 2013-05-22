@@ -15,12 +15,14 @@ class CategoriesController < ApplicationController
     @category = Category.new(params[:category])
     file_ext = check_file_type(@category.image.original_filename) if @category.image
 
-    if @category.valid? and @category.upload(@category.image, file_ext)
+    if @category.valid? and @category.name_unique? and
+        @category.upload(@category.image, file_ext)
+
       @category.save
       redirect_to category_path(@category.id)
     else
-      flash.now[:alert] = 'Ошибка! Наименование 3..15 символов;
-        допустимые форматы изображения - JPG, JPEG или PNG).'
+      flash.now[:alert] = 'Ошибка! Наименование должно быть уникальным, длиной - 
+        3..15 символов; допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
   end
@@ -35,7 +37,7 @@ class CategoriesController < ApplicationController
     if @category.update(name: params[:category][:name])
       redirect_to category_path(@category.id)
     else
-      flash.now[:alert] = 'Ошибка! Наименование - должно содержать 3..15 символов.'
+      flash.now[:alert] = 'Ошибка! Наименование должно содержать 3..15 символов.'
       render :edit
     end
   end
