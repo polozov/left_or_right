@@ -1,8 +1,10 @@
 class Element < Ohm::Model
+  include Ohm::Callbacks
+
   attribute :name
   attribute :image
   counter   :score
-  set :voted, Element
+  set       :voted, Element
   reference :category, :Category
 
   index :category
@@ -68,4 +70,18 @@ class Element < Ohm::Model
       true
     end
   end
+
+  protected
+
+  # callback инкрементирующий счетчик элементов в категории
+  # при создании нового элемента
+  def after_save
+    self.category.incr('all_items')
+  end  
+
+  # callback декрементирующий счетчик элементов в категории
+  # при удалении элемента  
+  def after_delete
+    self.category.decr('all_items')
+  end  
 end

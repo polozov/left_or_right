@@ -3,7 +3,10 @@
 <% @categories.each do |c| %>
   <p>
     <%= image_tag c.image %>
-    <%= link_to c.name.capitalize, category_path(c.id) %>
+    <%= link_to c.name.capitalize, category_path(c.id) %> - 
+    <%= c.all_items %> 
+    <%= Russian.p(c.all_items.to_i, 'элемент', 'элемента', 'элементов') %>
+
     <% if can? :update, c and can? :destroy, c %>
        - <%= link_to 'Редактировать', edit_category_path(c.id) %>
        - <%= link_to 'Удалить',

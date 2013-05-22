@@ -2,6 +2,7 @@ class Category < Ohm::Model
   attribute  :name
   unique     :name
   attribute  :image
+  counter    :all_items
   collection :elements, :Element
 
   index :elements
