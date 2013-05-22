@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Attention! This task will remove all items from Redis DB!
+# Attention! This task will remove all items from Redis DB, all users and roles!
 #
 #
 # Удаляем все элементы и категории вместе с их изображениями
@@ -20,6 +20,7 @@ Category.all.each{ |c| c.delete }
     element.save
   end
 end
+puts 'Создаем категории и элементы...'
 
 #
 # Удаляем пользователей и роли
@@ -40,3 +41,6 @@ Role.create! name: 'user'
 #
 User.create! email: 'admin@test.com', password: '123456789',
   password_confirmation: '123456789'
+
+puts 'Создаем пользователей и роли...'
+puts 'Задание успешно выполнено.'

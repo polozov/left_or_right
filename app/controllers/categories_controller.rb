@@ -3,7 +3,6 @@
 class CategoriesController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :index]
   before_filter :category_finder, only: [:edit, :update, :show, :destroy]
-  rescue_from Ohm::UniqueIndexViolation, with: :name_is_not_unique
 
   def new
     cancan_authorize! :new, Category
@@ -47,8 +46,8 @@ class CategoriesController < ApplicationController
     if @category and @category.elements.size > 1
       @left, @right = Category.divination(@category.id)
     else
-      flash[:notice] = 'Данная категория еще не заполнена.'
-      redirect_to new_category_element_path(category_id: @category.id)
+      redirect_to new_category_element_path(category_id: @category.id),
+        notice: 'Данная категория еще не заполнена.'
     end
   end
 
@@ -63,6 +62,7 @@ class CategoriesController < ApplicationController
     if @category
       @category.elements.each{ |e| e.delete } if @category.elements.any?
       @category.delete
+      flash[:notice] = 'Категория была удалена!'
     else
       flash[:alert] = 'Данная категория не существует!'
     end
@@ -70,11 +70,6 @@ class CategoriesController < ApplicationController
   end
 
   private
-
-  def name_is_not_unique
-    flash[:alert] = 'Наименование категории должно быть уникальным!'
-    redirect_to root_path
-  end
 
   def category_finder
     @category = Category[params[:id]]

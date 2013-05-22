@@ -2,6 +2,11 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  rescue_from Ohm::UniqueIndexViolation do
+    redirect_to root_path, alert: 'Наименование категории должно быть уникальным!'
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, alert: exception.message
   end
@@ -20,7 +25,7 @@ class ApplicationController < ActionController::Base
     if element.incr('score')
       flash[:notice] = "#{element.name.capitalize} получил(а) Ваш голос!"
     else
-      flash[:alert] = "Произошла ошибка!"
+      flash[:alert] = 'Произошла ошибка!'
     end
     redirect_to category_path(id: element.category.id)
   end

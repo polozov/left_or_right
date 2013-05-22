@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  # attr_accessible :title, :body
 
   # проверка для CanCan - есть ли у пользователя данная роль
   def has_role? role

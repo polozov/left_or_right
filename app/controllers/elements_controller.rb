@@ -21,7 +21,7 @@ class ElementsController < ApplicationController
       @element.save
       redirect_to category_element_path(category_id: category.id, id: @element.id)
     else
-      flash.now[:alert] = 'Ошибка! Наименование - не менее 3-х символов;
+      flash.now[:alert] = 'Ошибка! Наименование 3..15 символов;
         допустимые форматы изображения - JPG, JPEG или PNG).'
       render :new
     end
@@ -48,8 +48,7 @@ class ElementsController < ApplicationController
     category = Category[params[:category_id]]
 
     if @element.nil? or category.nil? or @element.category.id != category.id
-      flash[:alert] = 'Произошла досадная ошибка!'
-      redirect_to root_path
+      redirect_to root_path, alert: 'Произошла досадная ошибка!'
     end 
   end
 
@@ -63,7 +62,7 @@ class ElementsController < ApplicationController
 
     if @element and @element.category.id == params[:category_id]
       @element.delete
-      flash[:alert] = 'Элемент был удален!'
+      flash[:notice] = 'Элемент был удален!'
     else
       flash[:alert] = 'Произошла ошибка! Элемент не удален!'
     end
@@ -77,8 +76,7 @@ class ElementsController < ApplicationController
     if @element and @element.category.id == params[:category_id]
       vote_up(@element)
     else
-      flash[:alert] = 'Hacker detected!'
-      redirect_to root_path
+      redirect_to root_path, alert: 'Hacker detected!'
     end
   end
 
