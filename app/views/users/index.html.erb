@@ -1,0 +1,11 @@
+<h3>Пользователи:</h3>
+
+<% @users.each do |user| %>
+  <p>
+    Имя: <%= user.username %><br />
+    Эл. почта: <%= user.email %> | 
+    <%= link_to_change_privileges(user) %> | 
+    <%= link_to 'Удалить', user_path(user), method: :delete,
+      confirm: 'Удалить пользователя?' %>
+  </p>
+<% end %>

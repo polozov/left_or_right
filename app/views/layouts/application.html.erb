@@ -16,6 +16,9 @@
   <% if user_signed_in? %>
     Вы зарегистрированы как - <%= current_user.username %> | 
     <%= link_to 'Профиль', edit_user_registration_path %> | 
+    <% if can? :manage, User %>
+      <%= link_to 'Пользователи', users_path %> | 
+    <% end %>
     <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
   <% else %>
     <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 

@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :username, :email, :password, :password_confirmation, :remember_me
 
-  # проверка для CanCan - есть ли у пользователя данная роль
+  # проверка, есть ли у пользователя данная роль
   def has_role? role
     self.roles.include? Role.find_by_name(role.to_s)
   end  
