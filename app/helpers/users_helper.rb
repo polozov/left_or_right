@@ -6,7 +6,7 @@ module UsersHelper
       if user.has_role? :admin
         'пользователи'
       else
-        'администраторы'
+        'редакторы'
       end
 
     link_to "В #{future_role}!", user_path(user), method: :put,

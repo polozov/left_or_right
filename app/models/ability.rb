@@ -9,6 +9,11 @@ class Ability
     else
       can :read, Category
 
+      if user.has_role? :editor
+        can :manage, Category
+        can :manage, Element
+      end
+
       if user.has_role? :user
         can :vote, :all
       end

@@ -15,12 +15,12 @@ class UsersController < ApplicationController
   def update
     cancan_authorize! :update, User
 
-    if @user.has_role? :admin
-      @user.roles.delete Role.find_by_name(:admin)
-      flash[:notice] = "Пользователь '#{@user.username}' исключен из администраторов!"
+    if @user.has_role? :editor
+      @user.roles.delete Role.find_by_name(:editor)
+      flash[:notice] = "Пользователь '#{@user.username}' исключен из редакторов!"
     else
-      @user.roles << Role.find_by_name(:admin)
-      flash[:notice] = "Пользователь '#{@user.username}' переведен в администраторы!"
+      @user.roles << Role.find_by_name(:editor)
+      flash[:notice] = "Пользователь '#{@user.username}' переведен в редакторы!"
     end
 
     redirect_to users_path
