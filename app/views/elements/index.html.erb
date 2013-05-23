@@ -4,7 +4,7 @@
   <p>
     <%= link_to e.name,
       category_element_path(category_id: e.category.id, id: e.id) %>
-    <% if can? :edit, e and can? :destroy, e %>
+    <% if can? :manage, e %>
      - <%= link_to 'Редактировать',
       edit_category_element_path(category_id: e.category.id, id: e.id) %>
      - <%= link_to 'Удалить',
@@ -12,4 +12,6 @@
       method: :delete, confirm: 'Вы уверены?'  %>
     <% end %>
   </p>
-<% end %>
+<% end %><br />
+
+<p><%= link_to 'На главную', root_path %></p>

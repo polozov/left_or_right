@@ -3,7 +3,7 @@
 module UsersHelper
   def link_to_change_privileges user
     future_role =
-      if user.has_role? :admin
+      if user.has_role? :editor
         'пользователи'
       else
         'редакторы'

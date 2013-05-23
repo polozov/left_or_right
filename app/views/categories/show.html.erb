@@ -10,11 +10,14 @@
   <%= render 'element_for_divination', e: @right %>
 </p><br />
 
-<p><%= link_to 'На главную', root_path %></p>
-
-<% if can? :create, Element %>
+<% if can? :manage, Element %>
   <p>
+    <%= link_to 'Управление элементами',
+      category_elements_path(category_id: @category.id) %>
+    <br /><br />
     <%= link_to 'Создать элемент',
       new_category_element_path(category_id: @category.id) %>
   </p>
 <% end %>
+
+<p><%= link_to 'На главную', root_path %></p>
