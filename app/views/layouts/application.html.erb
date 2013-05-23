@@ -2,30 +2,48 @@
 <html>
 <head>
   <title>Кто лучше?</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"   
+    type="text/javascript"></script>
+  <![endif]-->
+
+  <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-  <% if flash.any? %>
-    <p><%= notice %></p>
-    <p><%= alert %></p>
-  <% end %>
+  <div class="container">
+    <div class="row">
+      <div class="span6">
+        <% if flash.any? %>
+          <% flash.each do |type, msg| %>
+            <div class="alert alert-<%= type == :notice ? 'success' : 'error' %>">
+              <a class='close' data-dismiss='alert'>×</a>
+              <%= msg %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
 
-  <% if user_signed_in? %>
-    Вы зарегистрированы как - <%= current_user.username %> | 
-    <%= link_to 'Профиль', edit_user_registration_path %> | 
-    <% if can? :manage, User %>
-      <%= link_to 'Пользователи', users_path %> | 
-    <% end %>
-    <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
-  <% else %>
-    <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 
-    <%= link_to 'Войти', new_user_session_path %> 
-  <% end %>
+        <% if user_signed_in? %>
+          Вы зарегистрированы как - <%= current_user.username %> | 
+          <%= link_to 'Профиль', edit_user_registration_path %> | 
+          <% if can? :manage, User %>
+            <%= link_to 'Пользователи', users_path %> | 
+          <% end %>
+          <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 
+          <%= link_to 'Войти', new_user_session_path %> 
+        <% end %>
 
-  <%= yield %>
+        <%= yield %>
+
+
+  </div>
 
 </body>
 </html>

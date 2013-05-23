@@ -32,6 +32,8 @@ GEM
       rake
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bootstrap-sass (2.3.1.0)
+      sass (~> 3.2)
     builder (3.0.4)
     cancan (1.6.10)
     coffee-rails (3.2.2)
@@ -141,8 +143,9 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  bootstrap-sass
   cancan
-  coffee-rails (~> 3.2.1)
+  coffee-rails
   devise
   jquery-rails
   ohm
@@ -150,6 +153,6 @@ DEPENDENCIES
   rails (= 3.2.13)
   rspec-rails
   russian
-  sass-rails (~> 3.2.3)
+  sass-rails
   sqlite3
-  uglifier (>= 1.0.3)
+  uglifier
