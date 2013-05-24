@@ -1,22 +1,38 @@
 <h3>Все категории:</h3>
 
 <% @categories.each do |c| %>
-  <p>
-    <%= image_tag c.image %>
-    <%= link_to c.name.capitalize, category_path(c.id) %> - 
-    <%= c.all_items %> 
-    <%= Russian.p(c.all_items.to_i, 'элемент', 'элемента', 'элементов') %>
-
-    <% if can? :update, c and can? :destroy, c %>
-       - <%= link_to 'Редактировать', edit_category_path(c.id) %>
-       - <%= link_to 'Удалить',
-        category_path(c.id), method: :delete, confirm: 'Вы уверены?' %>
-    <% end %>
-  </p>
-<% end %><br />
+  <div class="categories">
+    <div class="category">
+      <div class="figure">
+        <%= link_to (image_tag c.image, style: 'max-height: 128px; max-width: 100px;'),
+          category_path(c.id) %>
+      </div>
+      <div class="category_text">
+        <%= link_to c.name.capitalize, category_path(c.id) %><br />
+        <small>
+          <%= c.all_items %>
+          <%= Russian.p(c.all_items.to_i, 'элемент', 'элемента', 'элементов') %>
+        </small>
+      </div>
+      <% if can? :manage, c %>        
+        <div class="category_actions">
+          <div class="btn-group">
+            <%= link_to raw('<i class="icon-wrench icon-white"></i> Редактировать'),
+              edit_category_path(c.id), class: 'btn btn-success btn-small' %>
+            <%= link_to raw('<i class="icon-remove icon-white"></i> Удалить'),
+              category_path(c.id), method: :delete, confirm: 'Вы уверены?',
+              class: 'btn btn-danger btn-small' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
 
 <% if can? :create, Category %>
+  <br /><br />
   <p>
-    <%= link_to 'Создать категорию', new_category_path %>
+    <%= link_to raw('<i class="icon-plus icon-white"></i> Создать категорию'),
+      new_category_path, class: 'btn btn-primary btn-small' %>
   </p>
 <% end %>

@@ -1,3 +1,127 @@
 @import "bootstrap";
 /*body { padding-top: 60px; }*/
+
+/* форма регистрации/входа и т.п. */
+.border-form-div {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 20px auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+.border-form-big-div {
+  max-width: 600px;
+  min-width: 400px;
+  padding: 19px 29px 29px;
+  margin: 20px auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+.border-form-div .form-signin-heading,
+.border-form-div .checkbox {
+  margin-bottom: 10px;
+}
+.border-form-div input[type="text"],
+.border-form-div input[type="email"],
+.border-form-div input[type="password"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}
+
+.categories {
+  margin-bottom: 20px;
+  width: 420px;
+/*  height: 120px;
+  max-height: 120px;*/
+}
+
+.category_actions {
+  margin-top: 15px;
+}
+
+.bottom_margin_10px {
+  margin-bottom: 10px;
+}
+
+.left_margin_25px {
+  margin-left: 25px;
+}
+
+.figure {
+  float: left;
+  width: 100px;
+  max-width: 100px;
+  height: 128px;
+  max-height: 128px;
+  margin-right: 15px;
+}
+
+.figure_small {
+/*  float: left;
+  max-width: 100px;
+  max-height: 128px;
+  margin-right: 15px;*/
+}
+
+.category {
+  width: 500px;
+  height: 120px;
+}
+
+.category_text {
+  width: 240px;
+}
+
+.category_thumb {
+  float: left;
+  max-width: 50px;
+  max-height: 64px;
+  margin-right: 15px;
+}
+
+.who_the_best {
+  text-align: center;
+}
+
+.vote_block {
+  text-align: center;
+  height: 250px;
+}
+
+.element_for_voting {
+  float: left;
+  height: 210px;
+  width: 50%;
+}
+
+.element_container {
+  width: 150px;
+  text-align: center;
+  margin: 0 auto 0;
+}
+
+.vote_button {
+  font-weight: bold;
+}
+
+.element_menu {
+  margin-bottom: 20px;
+}
+
 @import "bootstrap-responsive";

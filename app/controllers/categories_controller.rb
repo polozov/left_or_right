@@ -22,7 +22,7 @@ class CategoriesController < ApplicationController
       redirect_to category_path(@category.id)
     else
       flash.now[:alert] = 'Ошибка! Наименование должно быть уникальным, длиной - 
-        3..15 символов; допустимые форматы изображения - JPG, JPEG или PNG).'
+        3..15 символов; допустимые форматы изображения - JPG, JPEG или PNG.'
       render :new
     end
   end

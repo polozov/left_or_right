@@ -1,5 +1,14 @@
-<%= link_to (image_tag e.image),
-  vote_category_element_path(category_id: @category.id, id: e.id) %>
-<%= e.name.capitalize %>
-<br />
-Голосов: <%= e.score %>
+<div class="element_container">
+  <div class="figure left_margin_25px">
+    <%= image_tag e.image %>
+  </div><br />
+  <div>
+    <%= e.name.capitalize %><br />
+    Голосов: <%= e.score %>
+  </div>
+</div><br />
+<div class="vote_button">
+  <%= link_to message,
+    vote_category_element_path(category_id: @category.id, id: e.id),
+      class: 'btn btn-primary' %>
+</div>

@@ -1,17 +1,23 @@
-<h3>Все элементы категории:</h3>
+<h3>Все элементы категории:</h3><br />
 
 <% @elements.each do |e| %>
-  <p>
-    <%= link_to e.name,
-      category_element_path(category_id: e.category.id, id: e.id) %>
-    <% if can? :manage, e %>
-     - <%= link_to 'Редактировать',
-      edit_category_element_path(category_id: e.category.id, id: e.id) %>
-     - <%= link_to 'Удалить',
-      category_element_path(category_id: e.category.id, id: e.id),
-      method: :delete, confirm: 'Вы уверены?'  %>
-    <% end %>
-  </p>
+  <div class="element_menu">
+    <div class="btn-group">    
+      <%= link_to (raw('<i class="icon-eye-open"></i> ') + e.name),
+        category_element_path(category_id: e.category.id, id: e.id), class: 'btn' %>
+
+      <% if can? :manage, e %>
+        <%= link_to raw('<i class="icon-wrench icon-white"></i> Редактировать'),
+          edit_category_element_path(category_id: e.category.id, id: e.id),
+          class: 'btn btn-success' %>
+
+        <%= link_to raw('<i class="icon-remove icon-white"></i> Удалить'),
+          category_element_path(category_id: e.category.id, id: e.id),
+          method: :delete, confirm: 'Вы уверены?', class: 'btn btn-danger'  %>
+      <% end %>
+
+    </div>
+  </div>
 <% end %><br />
 
-<p><%= link_to 'На главную', root_path %></p>
+<div><%= link_to 'На главную', root_path %></div>

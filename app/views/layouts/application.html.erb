@@ -16,7 +16,23 @@
 
   <div class="container">
     <div class="row">
-      <div class="span6">
+      <div class="span6 pull-right bottom_margin_10px">
+        <% if user_signed_in? %>
+          Вы зарегистрированы как &#8211; <%= current_user.username %> | 
+          <%= link_to 'Профиль', edit_user_registration_path %> | 
+          <% if can? :manage, User %>
+            <%= link_to 'Пользователи', users_path %> | 
+          <% end %>
+          <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 
+          <%= link_to 'Войти', new_user_session_path %> 
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6 offset3">
         <% if flash.any? %>
           <% flash.each do |type, msg| %>
             <div class="alert alert-<%= type == :notice ? 'success' : 'error' %>">
@@ -28,21 +44,9 @@
       </div>
     </div>
 
-        <% if user_signed_in? %>
-          Вы зарегистрированы как - <%= current_user.username %> | 
-          <%= link_to 'Профиль', edit_user_registration_path %> | 
-          <% if can? :manage, User %>
-            <%= link_to 'Пользователи', users_path %> | 
-          <% end %>
-          <%= link_to 'Выйти', destroy_user_session_path, method: :delete %>
-        <% else %>
-          <%= link_to 'Зарегистрироваться', new_user_registration_path %> или 
-          <%= link_to 'Войти', new_user_session_path %> 
-        <% end %>
-
-        <%= yield %>
-
-
+    <div class="border-form-big-div">
+      <%= yield %>
+    </div>
   </div>
 
 </body>

@@ -1,16 +1,17 @@
-<h2>Изменить пароль</h2>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+<div class="border-form-div">
+  <h3>Изменить пароль</h3>
 
-  <div><%= f.label :password, "Новый пароль" %><br />
-  <%= f.password_field :password, :autofocus => true %></div>
+  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+    <%= devise_error_messages! %>
+    <%= f.hidden_field :reset_password_token %>
 
-  <div><%= f.label :password_confirmation, "Подтверждение нового пароля" %><br />
-  <%= f.password_field :password_confirmation %></div>
+    <%= f.password_field :password, :autofocus => true, placeholder: 'Новый пароль' %><br />
 
-  <div><%= f.submit "Изменить пароль" %></div>
-<% end %>
+    <%= f.password_field :password_confirmation, placeholder: 'Подтверждение нового пароля' %><br />
 
-<%= render "devise/shared/links" %>
+    <%= f.submit 'Изменить пароль', class: 'btn btn-primary' %>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>

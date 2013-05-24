@@ -1,11 +1,15 @@
-<h3>Пользователи:</h3>
+<h3>Пользователи:</h3><br />
 
 <% @users.each do |user| %>
-  <p>
+  <div class="element_menu">
     Имя: <%= user.username %><br />
-    Эл. почта: <%= user.email %> | 
-    <%= link_to_change_privileges(user) %> | 
-    <%= link_to 'Удалить', user_path(user), method: :delete,
-      confirm: 'Удалить пользователя?' %>
-  </p>
-<% end %>
+    Эл. почта: <%= user.email %><br />
+    <div class="btn-group"> 
+      <%= link_to_change_privileges(user) %>
+      <%= link_to raw('<i class="icon-remove icon-white"></i> Удалить'), user_path(user), method: :delete,
+        confirm: 'Удалить пользователя?', class: 'btn btn-danger btn-small' %>
+    </div>
+  </div><br />
+<% end %><br />
+
+<div><%= link_to 'На главную', root_path %></div>

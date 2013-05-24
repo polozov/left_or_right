@@ -1,16 +1,19 @@
-<h3>Создать новый элемент:</h3>
+<h3>Создать элемент:</h3>
+
 <%= form_for :element, url: { action: :create } do |f| %>
-  <p>
-    Наименование:<br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    Изображение:<br />
+  <div>
+    <%= f.label :name, 'Наименование' %>
+    <%= f.text_field :name, autofocus: true %>
+  </div><br />
+
+  <div>
+    <%= f.label :image, 'Изображение' %>
     <%= f.file_field :image %>
-  </p>
-  <p>
-    <%= f.submit 'Сохранить' %>
-  </p>
+  </div><br /><br />
+
+  <div>
+    <%= f.submit 'Сохранить', class: 'btn btn-primary' %>
+  </div>
 <% end %><br />
 
-<p><%= link_to 'На главную', root_path %></p>
+<div><%= link_to 'На главную', root_path %></div>

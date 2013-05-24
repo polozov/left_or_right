@@ -1,32 +1,39 @@
-<h2>Редактировать <%= resource_name.to_s.humanize %></h2>
+<div class="border-form-div">
+  <h3>Редактировать</h3>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+    <%= devise_error_messages! %>
 
-  <div><%= f.label :email, 'Эл. почта' %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+    <div><%= f.label :email, 'Эл. почта' %>
+    <%= f.email_field :email, :autofocus => true %></div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>В настоящее время ожидается подтверждение: <%= resource.unconfirmed_email %></div>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>В настоящее время ожидается подтверждение: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <div><%= f.label :username, 'Никнэйм' %>
+    <%= f.text_field :username %></div>  
+
+    <div><%= f.label :password, 'Новый пароль' %>
+    <small><i>(оставьте пустым, если не хотите изменять его)</i></small>
+    <%= f.password_field :password, :autocomplete => "off" %></div>
+
+    <div><%= f.label :password_confirmation, 'Подтверждение нового пароля' %>
+    <%= f.password_field :password_confirmation %></div>
+
+    <div><%= f.label :current_password, 'Текущий пароль' %>
+    <small><i>(введите Ваш пароль для сохранения изменений)</i></small>
+    <%= f.password_field :current_password %></div>
+
+    <%= f.submit "Сохранить", class: 'btn btn-primary' %>
   <% end %>
 
-  <div><%= f.label :username, 'Никнэйм' %><br />
-  <%= f.text_field :username %></div>  
+  <br />
+  <h3>Удалить мой аккаунт</h3>
 
-  <div><%= f.label :password, 'Пароль' %> <i>(оставьте пустым, если не хотите изменять его)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+  <p>Недовольны?</p>
+  <p><%= link_to "Удалить мой аккаунт", registration_path(resource_name), :data => { :confirm => "Вы уверены?" }, :method => :delete, class: 'btn btn-danger' %></p>
 
-  <div><%= f.label :password_confirmation, 'Подтверждение пароля' %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.label :current_password, 'Текущий пароль' %> <i>(введите Ваш текущий пароль для сохранения изменений)</i><br />
-  <%= f.password_field :current_password %></div>
-
-  <div><%= f.submit "Сохранить" %></div>
-<% end %>
-
-<h3>Удалить мой аккаунт</h3>
-
-<p>Недовольны? <%= button_to "Удалить мой аккаунт", registration_path(resource_name), :data => { :confirm => "Вы уверены?" }, :method => :delete %></p>
-
-<%= link_to "Назад", :back %>
+  <br /><br />
+  <%= link_to "Назад", :back %>
+</div>

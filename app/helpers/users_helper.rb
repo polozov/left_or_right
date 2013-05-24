@@ -10,6 +10,6 @@ module UsersHelper
       end
 
     link_to "В #{future_role}!", user_path(user), method: :put,
-      confirm: 'Изменить привилегии пользователя?'
+      confirm: 'Изменить привилегии пользователя?', class: 'btn btn-success btn-small'
   end
 end

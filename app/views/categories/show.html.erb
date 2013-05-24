@@ -1,23 +1,44 @@
-<h3>
-  Выбранная категория: <%= @category.name.capitalize %><br />
-  <%= image_tag @category.image %>
-</h3>
+<div>
+  <div class="category_thumb">
+    <%= image_tag @category.image %>
+  </div>
+  <h4><%= @category.name.capitalize %></h4>
+  <small>
+    <%= @category.all_items %>
+    <%= Russian.p(@category.all_items.to_i, 'элемент', 'элемента', 'элементов') %>
+  </small>
+</div><br /><br />
 
-<p>
-  <%= render 'element_for_divination', e: @left %>
-</p>
-<p>
-  <%= render 'element_for_divination', e: @right %>
-</p><br />
+<div class="who_the_best">
+  <h3>Кто лучше?</h3>
+</div><br /><br />
+
+<div class="vote_block">
+  <div class="element_for_voting">
+    <%= render 'element_for_divination', {e: @left, message: '< Слева!'} %>
+  </div>
+  <div class="element_for_voting">
+    <%= render 'element_for_divination', {e: @right, message: 'Справа! >'} %>
+  </div>
+</div><br />
+
+<div>
+  <%= link_to raw('<i class="icon-refresh icon-white"></i> Пропустить ход'),
+    category_path(@category.id), class: 'btn btn-inverse' %>
+</div><br />
 
 <% if can? :manage, Element %>
-  <p>
-    <%= link_to 'Управление элементами',
-      category_elements_path(category_id: @category.id) %>
-    <br /><br />
-    <%= link_to 'Создать элемент',
-      new_category_element_path(category_id: @category.id) %>
-  </p>
-<% end %>
+  <div>
+    <div class="btn-group">
+      <%= link_to raw('<i class="icon-wrench icon-white"></i> Управление элементами'),
+        category_elements_path(category_id: @category.id),
+        class: 'btn btn-success btn-small' %>
 
-<p><%= link_to 'На главную', root_path %></p>
+      <%= link_to raw('<i class="icon-plus icon-white"></i> Создать элемент'),
+        new_category_element_path(category_id: @category.id),
+        class: 'btn btn-primary btn-small' %>
+    </div>
+  </div><br />
+<% end %><br />
+
+<div><%= link_to 'На главную', root_path %></div>

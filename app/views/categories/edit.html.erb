@@ -1,16 +1,22 @@
 <h3>Редактировать категорию:</h3>
-<%= form_for :category, url: {action: :update, id: @category.id}, method: :put do |f| %>
-  <p>
-    Наименование:<br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
+
+<%= form_for :category, url: {action: :update, id: @category.id},
+  method: :put do |f| %>
+
+  <div>
+    <%= f.label :name, 'Наименование' %>
+    <%= f.text_field :name, autofocus: true %>
+  </div><br />
+
+  <div>
+    <%= f.label :image, 'Изображение' %>
     <%= image_tag @category.image %><br />
     <small>Изменить изображение нельзя!</small>
-  </p>
-  <p>
-    <%= f.submit 'Сохранить' %>
-  </p>
+  </div><br /><br />
+
+  <div>
+    <%= f.submit 'Сохранить', class: 'btn btn-primary' %>
+  </div>
 <% end %><br />
 
-<p><%= link_to 'На главную', root_path %></p>
+<div><%= link_to 'На главную', root_path %></div>

@@ -2,4 +2,4 @@
 
 <p>Вы можете подтвердить свой адрес электронной почты по ссылке ниже:</p>
 
-<p><%= link_to 'Подтвердить адрес эл. почты', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+<p><%= link_to 'Подтвердить адрес эл. почты', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token), class: 'btn btn-primary' %></p>
