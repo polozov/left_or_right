@@ -32,7 +32,7 @@ UsersRole.delete_all
 # 
 # Создаем необходимые роли для пользователей
 #
-Role.create! name: 'admin'
+admin_role = Role.create! name: 'admin'
 Role.create! name: 'editor'
 Role.create! name: 'user'
 
@@ -40,8 +40,13 @@ Role.create! name: 'user'
 # Создаем первого пользователя - админа
 # Пароль лучше бы сразу изменить :)
 #
-User.create! username: 'Admin', email: 'admin@test.com',
+admin = User.create! username: 'Admin', email: 'admin@test.com',
   password: '123456789', password_confirmation: '123456789'
+
+#
+# Делаем первого пользователя админом
+#
+admin.roles << admin_role
 
 puts 'Создаем пользователей и роли...'
 puts 'Задание успешно выполнено.'

@@ -14,7 +14,7 @@
 #
 
 class User < ActiveRecord::Base
-  before_create :add_role
+  before_create :add_user_role
 
   has_many :users_roles, uniq: true, dependent: :destroy
   has_many :roles, through: :users_roles, uniq: true
@@ -40,12 +40,8 @@ class User < ActiveRecord::Base
   private
 
   # колбэк, который добавляет пользователю роль
-  def add_role
-    if User.count.zero?
-      self.roles << Role.find_by_name(:admin)
-    else
-      self.roles << Role.find_by_name(:user)
-    end
+  def add_user_role
+    self.roles << Role.find_by_name(:user)
   end
 
 end
