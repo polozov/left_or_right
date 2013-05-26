@@ -10,6 +10,16 @@ module ControllerMacros
     end
   end
 
+  def login_editor
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      FactoryGirl.create(:user_role)
+      @editor = FactoryGirl.create(:user)
+      @editor.roles << FactoryGirl.create(:editor_role)
+      sign_in @editor
+    end
+  end
+
   def login_user
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]

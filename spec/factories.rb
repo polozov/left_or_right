@@ -1,3 +1,5 @@
+include ActionDispatch::TestProcess
+
 # registered_user (user.rb)
 FactoryGirl.define do
   factory :user do
@@ -25,5 +27,25 @@ end
 FactoryGirl.define do
   factory :admin_role, class: Role do
     name 'admin'
+  end
+end
+
+# test_category (category.rb)
+FactoryGirl.define do
+  factory :category, class: Category do
+    sequence(:name) { |n| "test_category_#{n}"}
+    image "test_category.png"
+  end
+end
+
+# test_element (element.rb)
+FactoryGirl.define do
+  factory :element, class: Element do
+    sequence(:name) { |n| "test_element_#{n}"}
+    # image 'test_element.png'
+    image {fixture_file_upload(Rails.root.join(
+          'spec', 'fixtures', 'rails.png'), 'image/png')}    
+    category
+    #association :category #???
   end
 end
