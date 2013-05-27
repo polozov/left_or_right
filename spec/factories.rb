@@ -34,7 +34,8 @@ end
 FactoryGirl.define do
   factory :category, class: Category do
     sequence(:name) { |n| "test_category_#{n}"}
-    image "test_category.png"
+    image {fixture_file_upload(Rails.root.join(
+          'spec', 'fixtures', 'rails.png'), 'image/png')}
   end
 end
 
@@ -42,10 +43,8 @@ end
 FactoryGirl.define do
   factory :element, class: Element do
     sequence(:name) { |n| "test_element_#{n}"}
-    # image 'test_element.png'
     image {fixture_file_upload(Rails.root.join(
-          'spec', 'fixtures', 'rails.png'), 'image/png')}    
+          'spec', 'fixtures', 'rails.png'), 'image/png')}
     category
-    #association :category #???
   end
 end

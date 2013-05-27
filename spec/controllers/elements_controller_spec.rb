@@ -12,6 +12,7 @@ describe ElementsController do
     @element_4 = FactoryGirl.create(:element, category: @category)
   end
 
+  # garbage collection
   after(:all) do
     Element.all.each{ |elem| elem.delete if elem }
     Category.all.each{ |cat| cat.delete if cat }
@@ -22,6 +23,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :new, category_id: @category.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -30,6 +32,7 @@ describe ElementsController do
         post :create, category_id: @category.id,
           element: FactoryGirl.attributes_for(:element)
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -37,6 +40,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :edit, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -44,6 +48,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         put :update, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -65,6 +70,15 @@ describe ElementsController do
       it 'should be redirect to login page' do
         delete :destroy, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
+      end
+    end
+
+    describe 'GET #vote' do
+      it 'should be redirect to login page' do
+        get :vote, category_id: @category.id, id: @element_1.id
+        expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
   end
@@ -76,14 +90,17 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :new, category_id: @category.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
     describe 'POST #create' do
       it 'should be redirect to login page' do
+        Element.any_instance.stub(:save).and_return(true)
         post :create, category_id: @category.id,
           element: FactoryGirl.attributes_for(:element)
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -91,6 +108,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :edit, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -98,6 +116,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         put :update, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -105,6 +124,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :show, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -112,6 +132,7 @@ describe ElementsController do
       it 'should be redirect to login page' do
         get :index, category_id: @category.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -119,6 +140,21 @@ describe ElementsController do
       it 'should be redirect to login page' do
         delete :destroy, category_id: @category.id, id: @element_1.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
+      end
+    end
+
+    describe 'GET #vote' do
+      it 'should be successful for the first time' do
+        get :vote, category_id: @category.id, id: @element_1.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:notice].should match /получил\(а\) Ваш голос!/
+      end
+
+      it 'should be failure in the second time for the same element' do
+        get :vote, category_id: @category.id, id: @element_1.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:alert].should match /Произошла ошибка!/
       end
     end
   end
@@ -135,10 +171,27 @@ describe ElementsController do
     end
 
     describe 'POST #create' do
-      xit 'should be successful for valid elements' do
+      it 'should be successful for valid elements' do
+        # Element.any_instance.stub(:create).and_return(@element_1)
+        # Element.any_instance.stub(:save).and_return(FactoryGirl.build_stubbed(:element))
         post :create, category_id: @category.id,
           element: FactoryGirl.attributes_for(:element)
-        expect(response).to redirect_to(category_element_url(assigns(@category.id), assigns(:element)))
+        expect(response).to redirect_to(category_element_url(
+          assigns(:element).category.id, assigns(:element).id))
+      end
+
+      it 'should be failure for invalid elements (long name)' do
+        post :create, category_id: @category.id,
+          element: FactoryGirl.attributes_for(:element, name: 'very_long_element_name')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
+      end
+
+      it 'should be failure for invalid elements (name is blank)' do
+        post :create, category_id: @category.id,
+          element: FactoryGirl.attributes_for(:element, name: '')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
       end
     end
 
@@ -194,6 +247,7 @@ describe ElementsController do
         delete :destroy, category_id: @category.id, id: @element_3.id
         expect(response).to redirect_to category_elements_path(
           category_id: @category.id)
+        flash[:notice].should match /Элемент был удален!/
       end
     end
   end
@@ -210,10 +264,25 @@ describe ElementsController do
     end
 
     describe 'POST #create' do
-      xit 'should be successful for valid elements' do
+      it 'should be successful for valid elements' do
         post :create, category_id: @category.id,
           element: FactoryGirl.attributes_for(:element)
-        expect(response).to redirect_to(category_element_url(assigns(@category.id), assigns(:element)))
+        expect(response).to redirect_to(category_element_url(
+          assigns(:element).category.id, assigns(:element).id))
+      end
+
+      it 'should be failure for invalid elements (long name)' do
+        post :create, category_id: @category.id,
+          element: FactoryGirl.attributes_for(:element, name: 'very_long_element_name')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
+      end
+
+      it 'should be failure for invalid elements (name is blank)' do
+        post :create, category_id: @category.id,
+          element: FactoryGirl.attributes_for(:element, name: '')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
       end
     end
 
@@ -269,6 +338,7 @@ describe ElementsController do
         delete :destroy, category_id: @category.id, id: @element_4.id
         expect(response).to redirect_to category_elements_path(
           category_id: @category.id)
+        flash[:notice].should match /Элемент был удален!/
       end
     end
   end

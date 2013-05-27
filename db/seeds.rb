@@ -4,8 +4,8 @@
 #
 #
 # Удаляем все элементы и категории вместе с их изображениями
-Element.all.each{ |e| e.delete }
-Category.all.each{ |c| c.delete }
+Element.all.each{ |e| e.delete if e }
+Category.all.each{ |c| c.delete if c }
 
 # Создаем 3 категории ('Категория_1'..'Категория_3')
 # Для каждой категории создаем 5 элементов ('Элемент_1_1'..'Элемент_3_5')

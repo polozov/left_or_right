@@ -14,6 +14,7 @@ describe CategoriesController do
     @category_2  = FactoryGirl.create(:category)
   end
 
+  # garbage collection
   after(:all) do
     Element.all.each{ |elem| elem.delete if elem }
     Category.all.each{ |cat| cat.delete if cat }
@@ -24,6 +25,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         get :new
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -31,6 +33,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         post :create, category: FactoryGirl.attributes_for(:category)
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -38,6 +41,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         get :edit, id: @category.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -46,6 +50,7 @@ describe CategoriesController do
         put :update, id: @category.id,
           category: FactoryGirl.attributes_for(:category, name: 'New Name')
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
 
@@ -69,6 +74,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         delete :destroy, id: @category.id
         expect(response).to redirect_to new_user_session_path
+        flash[:alert].should match /необходимо войти/
       end
     end
   end
@@ -80,6 +86,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         get :new
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -87,6 +94,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         post :create, category: FactoryGirl.attributes_for(:category)
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -94,6 +102,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         get :edit, id: @category.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -102,6 +111,7 @@ describe CategoriesController do
         put :update, id: @category.id,
           category: FactoryGirl.attributes_for(:category, name: 'New Name')
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
 
@@ -125,6 +135,7 @@ describe CategoriesController do
       it 'should be redirect to login page' do
         delete :destroy, id: @category.id
         expect(response).to redirect_to root_path
+        flash[:alert].should match /недостаточно полномочий/
       end
     end
   end
@@ -141,9 +152,22 @@ describe CategoriesController do
     end
 
     describe 'POST #create' do
-      xit 'should be successful for valid category data' do
+      it 'should be successful for valid category data' do
         post :create, category: FactoryGirl.attributes_for(:category)
-        expect(response).to redirect_to(category_url(assigns(:category)))
+        expect(response).to redirect_to(category_url(assigns(:category).id))
+      end
+
+      it 'should be failure for invalid category data (long name)' do
+        post :create, category:
+          FactoryGirl.attributes_for(:category, name: 'very_long_category_name')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
+      end
+
+      it 'should be failure for invalid category data (name is blank)' do
+        post :create, category: FactoryGirl.attributes_for(:category, name: '')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
       end
     end
 
@@ -197,6 +221,7 @@ describe CategoriesController do
       it 'should be redirect to root page' do
         delete :destroy, id: @category_1.id
         expect(response).to redirect_to root_path
+        flash[:notice].should match /Категория была удалена!/
       end
     end
   end
@@ -213,9 +238,22 @@ describe CategoriesController do
     end
 
     describe 'POST #create' do
-      xit 'should be successful for valid category data' do
+      it 'should be successful for valid category data' do
         post :create, category: FactoryGirl.attributes_for(:category)
-        expect(response).to redirect_to(category_url(assigns(:category)))
+        expect(response).to redirect_to(category_url(assigns(:category).id))
+      end
+
+      it 'should be failure for invalid category data (long name)' do
+        post :create, category:
+          FactoryGirl.attributes_for(:category, name: 'very_long_category_name')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
+      end
+
+      it 'should be failure for invalid category data (name is blank)' do
+        post :create, category: FactoryGirl.attributes_for(:category, name: '')
+        expect(response).to render_template :new
+        expect(response.body).to match /Ошибка!/
       end
     end
 
@@ -269,6 +307,7 @@ describe CategoriesController do
       it 'should be redirect to root page' do
         delete :destroy, id: @category_2.id
         expect(response).to redirect_to root_path
+        flash[:notice].should match /Категория была удалена!/
       end
     end
   end

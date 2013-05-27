@@ -19,6 +19,11 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'annotate'
+end
+
+group :test do
   gem 'spork-rails'
   gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
+  gem 'capybara'
 end
