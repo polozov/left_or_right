@@ -52,10 +52,7 @@ describe Element do
     it 'should increment element score for user who not voted and 
       not increment for user who voted' do
 
-      # this is ugly :(
-      FactoryGirl.create(:user_role) if Role.find_by_name(:user).nil?
-
-      user = FactoryGirl.create(:user)
+      user    = FactoryGirl.create(:user)
       element = FactoryGirl.create(:element)
       # first time
       expect{element.vote_up(user.id)}.to change{element.score}.from(0).to(1)

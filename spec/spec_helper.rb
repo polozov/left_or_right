@@ -66,6 +66,8 @@ Spork.each_run do
   load "#{Rails.root}/config/routes.rb"
   # load devise helpers
   load "#{Rails.root}/spec/support/controller_macros.rb"
+  # create user role
+  load "#{Rails.root}/spec/support/create_user_role.rb"
   # reset Redis (test DB)
   Ohm.flush
 end
