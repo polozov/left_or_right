@@ -33,7 +33,7 @@ end
 # test_category (category.rb)
 FactoryGirl.define do
   factory :category, class: Category do
-    sequence(:name) { |n| "test_category_#{n}"}
+    sequence(:name) { |n| "test_category#{n}"}
     image {fixture_file_upload(Rails.root.join(
           'spec', 'fixtures', 'rails.png'), 'image/png')}
   end
@@ -42,7 +42,7 @@ end
 # test_element (element.rb)
 FactoryGirl.define do
   factory :element, class: Element do
-    sequence(:name) { |n| "test_element_#{n}"}
+    sequence(:name) { |n| "test_element#{n}"}
     image {fixture_file_upload(Rails.root.join(
           'spec', 'fixtures', 'rails.png'), 'image/png')}
     category
