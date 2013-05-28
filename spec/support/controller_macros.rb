@@ -25,11 +25,4 @@ module ControllerMacros
       sign_in @user
     end
   end
-
-  def create_test_user
-    before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      @test_user = FactoryGirl.create(:user)
-    end
-  end
 end

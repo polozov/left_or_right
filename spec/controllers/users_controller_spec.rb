@@ -4,6 +4,14 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
+  before do
+    unique_prefix = SecureRandom.hex(5)
+    
+    @test_user = FactoryGirl.create(:user,
+      email: "email_#{unique_prefix}@test.com",
+      username: "User#{unique_prefix}")
+  end
+
   context 'for guest' do
     describe 'GET #index' do
       it 'should be redirect to login page' do
@@ -32,7 +40,6 @@ describe UsersController do
 
   context 'for user' do
     login_user
-    create_test_user
 
     describe 'GET #index' do
       it 'should be redirect to root page' do
@@ -61,7 +68,6 @@ describe UsersController do
 
   context 'for editor' do
     login_editor
-    create_test_user
 
     describe 'GET #index' do
       it 'should be redirect to root page' do
@@ -90,7 +96,6 @@ describe UsersController do
 
   context 'for admin' do
     login_admin
-    create_test_user
 
     describe 'GET #index' do
       it 'should be successful for admin' do

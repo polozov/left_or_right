@@ -23,34 +23,35 @@ describe User do
 
   # ActiveModel
   it { should validate_presence_of(:username) }
-  xit { should validate_uniqueness_of(:username) }
+  it { should validate_uniqueness_of(:username) }
   it { should ensure_length_of(:username).is_at_least(4) }
   it { should ensure_length_of(:username).is_at_most(16) }
 
-  context 'action has_role?' do
+  context 'model method' do
     before(:all) do
-      # FactoryGirl.create(:user_role)
-      # @test_user = FactoryGirl.create(:user)
+      uniq_username = "Test_#{SecureRandom.hex(4)}"
+      uniq_email    = "#{uniq_username}@test.com"
+      @test_user = FactoryGirl.create(:user,
+        username: uniq_username, email: uniq_email)
     end
 
-    xit 'return true if user has this role' do
-      expect(@test_user.has_role?(:user)).to be_true
+    context 'action has_role?' do
+      it 'should return true if user has this role' do
+        expect(@test_user.has_role?(:user)).to be_true
+      end
+
+      it 'should return false if user has not this role' do
+        expect(@test_user.has_role?(:editor)).to be_false
+        expect(@test_user.has_role?(:admin)).to be_false
+        expect(@test_user.has_role?(:god)).to be_false
+      end
     end
 
-    xit 'return false if user has not this role' do
-      expect(@test_user.has_role?(:editor)).to be_false
-      expect(@test_user.has_role?(:admin)).to be_false
-    end
-  end
-
-  context 'action add_user_role' do
-    before(:all) do
-      # FactoryGirl.create(:user_role)
-      # @test_user = FactoryGirl.create(:user)
-    end
-
-    xit 'add role :user to User instance' do
-      expect(@test_user.roles.size).to eql?(1)
+    context 'action add_user_role' do
+      it 'should add role :user to User instance' do
+        expect(@test_user.roles).to include(Role.find_by_name(:user))
+        expect(@test_user.roles.size).to eql(1)
+      end
     end
   end
 end
