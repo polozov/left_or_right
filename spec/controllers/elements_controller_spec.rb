@@ -10,6 +10,7 @@ describe ElementsController do
     @element_2 = FactoryGirl.create(:element, category: @category)
     @element_3 = FactoryGirl.create(:element, category: @category)
     @element_4 = FactoryGirl.create(:element, category: @category)
+    @element_5 = FactoryGirl.create(:element, category: @category)
   end
 
   # garbage collection
@@ -145,14 +146,16 @@ describe ElementsController do
     end
 
     describe 'GET #vote' do
-      it 'should be successful for the first time' do
-        get :vote, category_id: @category.id, id: @element_1.id
+      it 'should be successful for the first time be failure in the second time 
+        for the same element' do
+
+        # first time
+        get :vote, category_id: @category.id, id: @element_5.id
         expect(response).to redirect_to category_path(@category.id)
         flash[:notice].should match /получил\(а\) Ваш голос!/
-      end
 
-      it 'should be failure in the second time for the same element' do
-        get :vote, category_id: @category.id, id: @element_1.id
+        # second time
+        get :vote, category_id: @category.id, id: @element_5.id
         expect(response).to redirect_to category_path(@category.id)
         flash[:alert].should match /Произошла ошибка!/
       end
@@ -250,6 +253,22 @@ describe ElementsController do
         flash[:notice].should match /Элемент был удален!/
       end
     end
+
+    describe 'GET #vote' do
+      it 'should be successful for the first time be failure in the second time 
+        for the same element' do
+
+        # first time
+        get :vote, category_id: @category.id, id: @element_2.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:notice].should match /получил\(а\) Ваш голос!/
+
+        # second time
+        get :vote, category_id: @category.id, id: @element_2.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:alert].should match /Произошла ошибка!/
+      end
+    end
   end
 
   context 'for admin' do
@@ -339,6 +358,22 @@ describe ElementsController do
         expect(response).to redirect_to category_elements_path(
           category_id: @category.id)
         flash[:notice].should match /Элемент был удален!/
+      end
+    end
+
+    describe 'GET #vote' do
+      it 'should be successful for the first time be failure in the second time 
+        for the same element' do
+
+        # first time
+        get :vote, category_id: @category.id, id: @element_1.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:notice].should match /получил\(а\) Ваш голос!/
+
+        # second time
+        get :vote, category_id: @category.id, id: @element_1.id
+        expect(response).to redirect_to category_path(@category.id)
+        flash[:alert].should match /Произошла ошибка!/
       end
     end
   end
