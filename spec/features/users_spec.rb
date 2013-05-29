@@ -149,31 +149,31 @@ describe 'Users' do
 
   describe 'forbidden actions' do
     it 'visit users page should redirect to root page and show alert message' do
-      visit 'users'
+      visit '/users'
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end
 
     it 'visit new category page should redirect to root page and show alert message' do
-      visit 'categories/new'
+      visit '/categories/new'
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end
 
     it 'visit new elements page should redirect to root page and show alert message' do
-      visit "categories/#{@category_2.id}/elements/new"
+      visit "/categories/#{@category_2.id}/elements/new"
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end
 
     it 'visit edit category page should redirect to root page and show alert message' do
-      visit "categories/#{@category_2.id}/edit"
+      visit "/categories/#{@category_2.id}/edit"
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end
     
     it 'visit edit elements page should redirect to root page and show alert message' do
-      visit "categories/#{@category_2.id}/elements/#{@element_2.id}/edit"
+      visit "/categories/#{@category_2.id}/elements/#{@element_2.id}/edit"
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end
