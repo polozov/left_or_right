@@ -19,8 +19,14 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
-    # config.before(:suite) do
-    # end
+    config.before(:suite) do
+      RoleHelper::create_user_role
+    end
+    # 
+    # centralized garbage collection
+    config.after(:suite) do
+      Cleaner::start_garbage_collection
+    end    
     #
     # config.include Rails.application.routes.url_helpers
     # ## Mock Framework
@@ -64,10 +70,4 @@ Spork.each_run do
   Dir["#{Rails.root}/app/**/*.rb"].each { |file| load file }
   # load routes configs
   load "#{Rails.root}/config/routes.rb"
-  # load devise helpers
-  load "#{Rails.root}/spec/support/controller_macros.rb"
-  # create user role
-  load "#{Rails.root}/spec/support/create_user_role.rb"
-  # reset Redis (test DB)
-  Ohm.flush
 end

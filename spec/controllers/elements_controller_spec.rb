@@ -13,12 +13,6 @@ describe ElementsController do
     @element_5 = FactoryGirl.create(:element, category: @category)
   end
 
-  # garbage collection
-  after(:all) do
-    Element.all.each{ |elem| elem.delete if elem }
-    Category.all.each{ |cat| cat.delete if cat }
-  end
-
   context 'for guest' do
     describe 'GET #new' do
       it 'should be redirect to login page' do

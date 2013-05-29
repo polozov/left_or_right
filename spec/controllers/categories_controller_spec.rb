@@ -14,12 +14,6 @@ describe CategoriesController do
     @category_2  = FactoryGirl.create(:category)
   end
 
-  # garbage collection
-  after(:all) do
-    Element.all.each{ |elem| elem.delete if elem }
-    Category.all.each{ |cat| cat.delete if cat }
-  end
-
   context 'for guest user' do
     describe 'GET #new' do
       it 'should be redirect to login page' do
