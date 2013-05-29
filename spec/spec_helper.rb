@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rubygems'
 require 'spork'
 
@@ -55,6 +56,9 @@ Spork.prefork do
     # the seed, which is printed after each run.
     #     --seed 1234
     config.order = "random"
+
+    # Capybara
+    config.include Capybara::DSL
 
     # Devise settings
     config.include Devise::TestHelpers, :type => :controller
