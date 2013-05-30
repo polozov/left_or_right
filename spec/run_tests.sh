@@ -4,7 +4,7 @@
 echo -en "\E[2J"
 
 # запуск тестов LIMIT раз
-LIMIT=1
+LIMIT=10
 
 for ((a=1; a <= LIMIT ; a++))
 do
