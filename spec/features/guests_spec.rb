@@ -32,6 +32,7 @@ describe 'Guests' do
     end
 
     it 'should have links to categories' do
+      page.should have_content('Все категории:')
       page.should have_content('Категория_1')
       page.should have_content('2 элемента')
       page.should have_content('Категория_2')

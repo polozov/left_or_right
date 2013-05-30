@@ -6,12 +6,13 @@ describe 'Users' do
   before { sign_in_as('test@test.com', 'Test_user', 'test_pass') }
 
   before(:all) do
-    @category_1  = FactoryGirl.create(:category, name: 'Автомобили')
-    @element_1 = FactoryGirl.create(:element, name: 'Фиат', category: @category_1)
+    @category_1  = FactoryGirl.create(:category, name: 'Категория_5')
+    @element_1 = FactoryGirl.create(:element, name: 'Элемент_9', category: @category_1)
+    @element_2 = FactoryGirl.create(:element, name: 'Элемент_10', category: @category_1)
 
-    @category_2  = FactoryGirl.create(:category, name: 'Девушки')
-    @element_2 = FactoryGirl.create(:element, name: 'Даша', category: @category_2)
-    @element_3 = FactoryGirl.create(:element, name: 'Маша', category: @category_2)
+    @category_2  = FactoryGirl.create(:category, name: 'Категория_6')
+    @element_3 = FactoryGirl.create(:element, name: 'Элемент_11', category: @category_2)
+    @element_4 = FactoryGirl.create(:element, name: 'Элемент_12', category: @category_2)
   end
 
   describe 'root page' do
@@ -28,9 +29,10 @@ describe 'Users' do
     end
 
     it 'should have links to categories' do
-      page.should have_content('Автомобили')
-      page.should have_content('1 элемент')
-      page.should have_content('Девушки')
+      page.should have_content('Все категории:')
+      page.should have_content('Категория_5')
+      page.should have_content('2 элемента')
+      page.should have_content('Категория_6')
       page.should have_content('2 элемента')
     end
   end
@@ -45,9 +47,9 @@ describe 'Users' do
     end
 
     it 'should have 2 elements for voting' do
-      page.should have_content("#{@element_2.name}")
-      page.should have_content('Голосов: 0')
       page.should have_content("#{@element_3.name}")
+      page.should have_content('Голосов: 0')
+      page.should have_content("#{@element_4.name}")
       page.should have_content('Голосов: 0')
     end
 
@@ -173,7 +175,7 @@ describe 'Users' do
     end
     
     it 'visit edit elements page should redirect to root page and show alert message' do
-      visit "/categories/#{@category_2.id}/elements/#{@element_2.id}/edit"
+      visit "/categories/#{@category_2.id}/elements/#{@element_3.id}/edit"
       current_path.should == root_path
       page.should have_content('У Вас недостаточно полномочий для этого действия.')
     end

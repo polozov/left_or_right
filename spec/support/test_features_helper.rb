@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 
-def sign_in_as(email, username, password)
+def sign_in_as(email, username, password, role=nil)
   user = FactoryGirl.build(:user, 
     email:    email,
     username: username,
@@ -9,6 +9,8 @@ def sign_in_as(email, username, password)
     password_confirmation: password
   )
   user.save!
+  
+  user.roles << Role.find_by_name(role.to_sym) if role
 
   visit '/'
   click_on('Войти')
