@@ -48,5 +48,6 @@ admin = User.create! username: 'Admin', email: 'admin@test.com',
 #
 admin.roles << admin_role
 
-puts 'Создаем пользователей и роли...'
+puts "Создаем администратора (email: 'admin@test.com', password: '123456789')..."
+puts 'Измените пароль администратора на более сложный!'
 puts 'Задание успешно выполнено.'
