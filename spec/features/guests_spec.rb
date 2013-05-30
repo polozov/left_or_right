@@ -8,7 +8,7 @@ describe 'Guests' do
   before(:all) do
     @category_1  = FactoryGirl.create(:category, name: 'Категория_1')
     @element_1 = FactoryGirl.create(:element, name: 'Элемент_1', category: @category_1)
-    @element_2 = FactoryGirl.create(:element, name: 'Элемент_3', category: @category_1)
+    @element_2 = FactoryGirl.create(:element, name: 'Элемент_2', category: @category_1)
 
     @category_2  = FactoryGirl.create(:category, name: 'Категория_2')
     @element_3 = FactoryGirl.create(:element, name: 'Элемент_3', category: @category_2)

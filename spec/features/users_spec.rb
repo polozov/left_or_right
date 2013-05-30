@@ -6,13 +6,13 @@ describe 'Users' do
   before { sign_in_as('test@test.com', 'Test_user', 'test_pass') }
 
   before(:all) do
-    @category_1  = FactoryGirl.create(:category, name: 'Категория_5')
-    @element_1 = FactoryGirl.create(:element, name: 'Элемент_9', category: @category_1)
-    @element_2 = FactoryGirl.create(:element, name: 'Элемент_10', category: @category_1)
+    @category_1  = FactoryGirl.create(:category, name: 'Категория_3')
+    @element_1 = FactoryGirl.create(:element, name: 'Элемент_5', category: @category_1)
+    @element_2 = FactoryGirl.create(:element, name: 'Элемент_6', category: @category_1)
 
-    @category_2  = FactoryGirl.create(:category, name: 'Категория_6')
-    @element_3 = FactoryGirl.create(:element, name: 'Элемент_11', category: @category_2)
-    @element_4 = FactoryGirl.create(:element, name: 'Элемент_12', category: @category_2)
+    @category_2  = FactoryGirl.create(:category, name: 'Категория_4')
+    @element_3 = FactoryGirl.create(:element, name: 'Элемент_7', category: @category_2)
+    @element_4 = FactoryGirl.create(:element, name: 'Элемент_8', category: @category_2)
   end
 
   describe 'root page' do
@@ -30,9 +30,9 @@ describe 'Users' do
 
     it 'should have links to categories' do
       page.should have_content('Все категории:')
-      page.should have_content('Категория_5')
+      page.should have_content('Категория_3')
       page.should have_content('2 элемента')
-      page.should have_content('Категория_6')
+      page.should have_content('Категория_4')
       page.should have_content('2 элемента')
     end
   end
